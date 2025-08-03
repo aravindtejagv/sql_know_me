@@ -170,3 +170,4 @@ LEFT JOIN DimProduct DP ON FIS.ProductKey=DP.ProductKey
 INNER JOIN DimProductSubcategory DPS ON DPS.ProductSubcategoryKey=DP.ProductSubcategoryKey
 INNER JOIN DimProductCategory DPC ON DPC.ProductCategoryKey=DPS.ProductCategoryKey
 WHERE DST.SalesTerritoryCountry ='Germany'
+
