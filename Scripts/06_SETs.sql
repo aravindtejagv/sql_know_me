@@ -69,4 +69,34 @@ SELECT FirstName,MiddleName L_Name,EmailAddress FROM DimEmployee
    Combine the data from Employees and Customers into one table using UNION 
 */
 
+SELECT FirstName,LastName,EmailAddress FROM DimCustomer 
+UNION
+SELECT FirstName,LastName,EmailAddress FROM DimEmployee
 
+/* TASK 2: 
+   Combine the data from Employees and Customers into one table, including duplicates, using UNION ALL 
+*/
+
+SELECT FirstName,LastName,EmailAddress FROM DimCustomer 
+UNION ALL
+SELECT FirstName,LastName,EmailAddress FROM DimEmployee
+
+/* TASK 3: 
+   Find employees who are NOT customers using EXCEPT 
+*/
+
+SELECT FirstName,LastName,EmailAddress FROM DimEmployee 
+EXCEPT
+SELECT FirstName,LastName,EmailAddress FROM DimCustomer
+
+/* TASK 4: 
+   Find employees who are also customers using INTERSECT 
+*/
+
+SELECT FirstName,LastName,EmailAddress FROM DimEmployee 
+INTERSECT
+SELECT FirstName,LastName,EmailAddress FROM DimCustomer
+
+/* TASK 5: 
+   Combine order data from Orders and OrdersArchive into one report without duplicates 
+*/
