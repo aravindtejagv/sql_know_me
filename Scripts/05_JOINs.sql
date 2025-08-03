@@ -129,7 +129,7 @@ CROSS JOIN FactInternetSales FIS;
    MULTIPLE TABLE JOINS (4 Tables)
 =============================================================================== */
 
-/* Task: Using SalesDB, Retrieve a list of all orders, along with the related customer, product, 
+/* Task: Using SalesDB, Retrieve a list of orders, along with the related customer, product, 
    and employee details. For each order, display:
    - Order ID
    - Customer's name
@@ -138,3 +138,35 @@ CROSS JOIN FactInternetSales FIS;
    - Product price
    - Salesperson's name */
 
+SELECT DC.CustomerKey,DC.FirstName,DCU.CurrencyName,DST.SalesTerritoryCountry,DP.EnglishProductName,
+DPC.EnglishProductCategoryName,DPS.SpanishProductSubcategoryName,
+FIS.SalesOrderNumber,FIS.SalesAmount 
+FROM FactInternetSales FIS
+INNER JOIN DimCustomer DC ON DC.CustomerKey=FIS.CustomerKey
+INNER JOIN DimCurrency DCU ON DCU.CurrencyKey=FIS.CurrencyKey
+INNER JOIN DimSalesTerritory DST ON DST.SalesTerritoryKey=FIS.SalesTerritoryKey
+INNER JOIN DimProduct DP ON DP.ProductKey=FIS.ProductKey
+INNER JOIN DimProductSubcategory DPS ON DPS.ProductSubcategoryKey=DP.ProductSubcategoryKey
+INNER JOIN DimProductCategory DPC ON DPC.ProductCategoryKey=DPS.ProductCategoryKey
+WHERE DST.SalesTerritoryCountry ='Germany';
+
+/* Task: Using SalesDB, Retrieve a list of ALL orders, along with the related customer, product, 
+   and employee details. For each order, display:
+   - Order ID
+   - Customer's name
+   - Product name
+   - Sales amount
+   - Product price
+   - Salesperson's name */
+
+SELECT DC.CustomerKey,DC.FirstName,DCU.CurrencyName,DST.SalesTerritoryCountry,DP.EnglishProductName,
+DPC.EnglishProductCategoryName,DPS.SpanishProductSubcategoryName,
+FIS.SalesOrderNumber,FIS.SalesAmount 
+FROM FactInternetSales FIS
+LEFT JOIN DimCustomer DC ON FIS.CustomerKey=DC.CustomerKey
+LEFT JOIN DimCurrency DCU ON FIS.CurrencyKey=DCU.CurrencyKey
+LEFT JOIN DimSalesTerritory DST ON FIS.SalesTerritoryKey= DST.SalesTerritoryKey
+LEFT JOIN DimProduct DP ON FIS.ProductKey=DP.ProductKey
+INNER JOIN DimProductSubcategory DPS ON DPS.ProductSubcategoryKey=DP.ProductSubcategoryKey
+INNER JOIN DimProductCategory DPC ON DPC.ProductCategoryKey=DPS.ProductCategoryKey
+WHERE DST.SalesTerritoryCountry ='Germany'
