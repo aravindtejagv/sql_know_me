@@ -18,4 +18,3 @@
         - ALTERNATIVE INNER JOIN
         - FULL ANTI JOIN
         - CROSS JOIN
-     3. Multiple Table Joins (4 Tables)
