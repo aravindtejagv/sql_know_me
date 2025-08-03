@@ -171,3 +171,4 @@ INNER JOIN DimProductSubcategory DPS ON DPS.ProductSubcategoryKey=DP.ProductSubc
 INNER JOIN DimProductCategory DPC ON DPC.ProductCategoryKey=DPS.ProductCategoryKey
 WHERE DST.SalesTerritoryCountry ='Germany'
 
+
