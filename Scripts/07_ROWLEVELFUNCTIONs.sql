@@ -73,4 +73,52 @@ where len(first_name) != len(trim(first_name))
    REPLACE() - Replace or Remove old value with new one
 =============================================================================== */
 
+select CustomerKey,
+FirstName,
+BirthDate,
+Replace(BirthDate,'-','') as BD_Code,
+EmailAddress,
+Replace(EmailAddress,'adventure-works','yahoo') as New_Email
+from DimCustomer
+
+/* ============================================================================== 
+   LEN() - String Length & Trimming
+=============================================================================== */
+
+-- Calculate the length of each customer's first name
+
+select CustomerKey,
+FirstName,
+len(firstname) len_fname,
+EmailAddress,
+len(EmailAddress) len_email
+from DimCustomer
+
+/* ============================================================================== 
+   LEFT() & RIGHT() - Substring Extraction
+=============================================================================== */
+
+select CustomerKey,
+FirstName,
+EmailAddress,
+LEFT(EmailAddress,5) as first_5_charcters,
+RIGHT(EmailAddress,6) as last_6_charcters,
+Addressline1 as Ad_Line,
+LEFT(TRIM(AddressLine1),4) as Ad_4_first,
+RIGHT(TRIM(AddressLine1),7) as Ad_7_last
+from DimCustomer
+
+	
+/* ============================================================================== 
+   SUBSTRING() - Extracting Substrings
+=============================================================================== */
+
+-- Retrieve a list of customers' first names after removing the first character
+
+
+
+/* ==============================================================================
+   NESTING FUNCTIONS
+===============================================================================*/
+
 
