@@ -100,3 +100,39 @@ SELECT FirstName,LastName,EmailAddress FROM DimCustomer
 /* TASK 5: 
    Combine order data from Orders and OrdersArchive into one report without duplicates 
 */
+
+select 
+'Orders' as BaseTable,
+OrderID,
+ProductID,
+CustomerID,
+SalesPersonID,
+OrderDate,
+ShipDate,
+OrderStatus,
+ShipAddress,
+BillAddress,
+Quantity,
+Sales,
+CreationTime
+from SalesDB.Sales.Orders
+
+union
+
+select 
+'Orders_Archive' as FromTable,
+OrderID,
+ProductID,
+CustomerID,
+SalesPersonID,
+OrderDate,
+ShipDate,
+OrderStatus,
+ShipAddress,
+BillAddress,
+Quantity,
+Sales,
+CreationTime
+from SalesDB.Sales.OrdersArchive
+order by OrderID asc
+
