@@ -245,6 +245,7 @@ Display Datepart on OrderDate.
 */
 
 -- I am using AdventureWorksDW2022
+-- FYI Datepart returns only interger value i.e., Type int as output
 
 SELECT DC.CustomerKey,DC.FirstName,
 DC.DateFirstPurchase,
@@ -255,7 +256,7 @@ Day(FIS.OrderDate) as Day,
 DATEPART(YEAR,FIS.OrderDate) as Year_dp,
 DATEPART(Month,FIS.OrderDate) as Month_dp,
 DATEPART(Day,FIS.OrderDate) as Day_dp,
-DATEPART(HOUR,FIS.OrderDate) as Day_dp,
+DATEPART(HOUR,FIS.OrderDate) as hour_dp,
 DATEPART(DAYOFYEAR,FIS.OrderDate) as Dayyear_dp,
 DATEPART(QUARTER,FIS.OrderDate) as Quarter_dp,
 DATEPART(WEEK,FIS.OrderDate) as Week_dp,
@@ -263,4 +264,66 @@ DATEPART(WEEKDAY,FIS.OrderDate) as Weekday_dp
 FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 order by FIS.OrderDateKey DESC
+
+/*Task 3:
+
+Display Datename on OrderDate.
+*/
+
+-- I am using AdventureWorksDW2022
+-- FYI Datename returns only String value i.e., Type String as output
+
+SELECT DC.CustomerKey,DC.FirstName,
+DC.DateFirstPurchase,
+FIS.OrderDate,
+DATENAME(YEAR,FIS.OrderDate) as Year_dn,
+DATENAME(Month,FIS.OrderDate) as Month_dn,
+DATENAME(Day,FIS.OrderDate) as Day_dn,
+DATENAME(Hour,FIS.OrderDate) as hour_dn, --- For testing purpose i used datename for hour as well, But the result is '0'
+DATENAME(DAYOFYEAR,FIS.OrderDate) as Dayyear_dn,
+DATENAME(QUARTER,FIS.OrderDate) as Quarter_dn,
+DATENAME(WEEK,FIS.OrderDate) as Week_dn,
+DATENAME(WEEKDAY,FIS.OrderDate) as Weekday_dn
+
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+order by FIS.OrderDateKey DESC
+
+
+/*for reference
+ create table #test (d datetime);
+ insert into #test values(null); 
+ insert into #test values(null);
+ insert into #test values(null); 
+ update #test SET d = DATEADD(day, (ABS(CHECKSUM(NEWID())) % 65530), 0);
+ select * from #test;
+ drop table #test; */
+
+-- I am using AdventureWorksDW2022
+
+ SELECT DC.CustomerKey,DC.FirstName,fis.OrderDate,
+DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate) Random_time, --used for random date or time.
+DATETRUNC(YEAR,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as Year_dT,
+DATETRUNC(Month,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as Month_dt,
+DATETRUNC(Day,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as Day_dt,
+DATETRUNC(HOUR,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as hour_dt, 
+DATETRUNC(MINUTE,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as minute_dt,
+DATETRUNC(SECOND,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as second_dt, 
+DATETRUNC(MILLISECOND,DATEADD(SECOND, (ABS(CHECKSUM(NEWID())) % 65530),fis.OrderDate)) as millisecond_dt
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+order by FIS.CustomerKey DESC
+
+
+-- I am using AdventureWorksDW2022
+--SAMPLE EXAMPLE FOR DATETRUNC
+
+SELECT 
+DATETRUNC(MONTH,FIS.OrderDate) as Year_dT,
+COUNT(*) AS TOTALSALES,SUM(FIS.SalesAmount) AS TOTAL_SALES_AMOUNT
+
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+GROUP BY DATETRUNC(MONTH,FIS.OrderDate) 
+order by DATETRUNC(MONTH,FIS.OrderDate) DESC
 
