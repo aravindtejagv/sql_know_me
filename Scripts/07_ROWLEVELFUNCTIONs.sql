@@ -255,6 +255,7 @@ Day(FIS.OrderDate) as Day,
 DATEPART(YEAR,FIS.OrderDate) as Year_dp,
 DATEPART(Month,FIS.OrderDate) as Month_dp,
 DATEPART(Day,FIS.OrderDate) as Day_dp,
+DATEPART(HOUR,FIS.OrderDate) as Day_dp,
 DATEPART(DAYOFYEAR,FIS.OrderDate) as Dayyear_dp,
 DATEPART(QUARTER,FIS.OrderDate) as Quarter_dp,
 DATEPART(WEEK,FIS.OrderDate) as Week_dp,
@@ -262,3 +263,4 @@ DATEPART(WEEKDAY,FIS.OrderDate) as Weekday_dp
 FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 order by FIS.OrderDateKey DESC
+
