@@ -134,3 +134,49 @@ LEFT(SUBSTRING(TRIM(AccountDescription),2,10),8) AS LEFT_OF_SUBSTR,
 LEN(LEFT(SUBSTRING(TRIM(AccountDescription),2,10),8)) AS LEN_OF_LEFT_OF_SUBSTR
 FROM DimAccount
 
+/* ============================================================================== 
+   SQL Number Functions Guide
+-------------------------------------------------------------------------------
+   This document provides an overview of SQL number functions, which allow 
+   performing mathematical operations and formatting numerical values.
+
+   Table of Contents:
+     1. Rounding Functions
+        - ROUND
+     2. Absolute Value Function
+        - ABS
+=================================================================================
+*/
+
+/* ============================================================================== 
+   ROUND() - Rounding Numbers
+=============================================================================== */
+
+-- Demonstrate rounding a number to different decimal places
+
+
+    SELECT 22.0 / 7;
+    -- Or
+    SELECT 22 / 7.0;
+    /*Adding a decimal point to 22 (making it 22.0) or 7 (making it 7.0) implicitly
+     converts the literal to a numeric data type with a decimal component, 
+     forcing SQL Server to perform floating-point division.*/
+
+SELECT 22.0/7 as divfor,3.142857 as numfor,3.51675 as numfor2,
+ROUND(22/7.0,3) Rdivfor_3,ROUND(3.142857,3)Rnumfor_3,ROUND(3.51675,3)Rnumfor2_3,
+ROUND(22.0/7.0,1) Rdivfor_1,ROUND(3.142857,1) Rnumfor_1,ROUND(3.51675,1) Rnumfor2_1,
+ROUND(22.0/7,0) Rdivfor_0,ROUND(3.142857,0) Rnumfor_0,ROUND(3.51675,0) Rnumfor2_0
+
+/* ============================================================================== 
+   ABS() - Absolute Value
+=============================================================================== */
+
+-- Demonstrate absolute value function
+
+SELECT -22.0/7 as divfor,22/-7.0 as divfor2,
+3.142857 as numfor,-3.51675 as numfor2,
+ABS(-22.0/7) ABS1,
+ABS(22/-7.0) ABS2,
+ABS(3.142857) ABS3,
+ABS(-3.51675) ABS4,
+ABS(ROUND(-3.51675,0)) ABS5_ROUN
