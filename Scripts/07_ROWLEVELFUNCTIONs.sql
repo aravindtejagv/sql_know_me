@@ -104,9 +104,10 @@ EmailAddress,
 LEFT(EmailAddress,5) as first_5_charcters,
 RIGHT(EmailAddress,6) as last_6_charcters,
 Addressline1 as Ad_Line,
-LEFT(TRIM(AddressLine1),4) as Ad_4_first,
-RIGHT(TRIM(AddressLine1),7) as Ad_7_last
+LEFT(TRIM(AddressLine1),4) as Ad_4_first, --trim to remove spaces if available
+RIGHT(TRIM(AddressLine1),7) as Ad_7_last --trim to remove spaces if available
 from DimCustomer
+
 
 	
 /* ============================================================================== 
@@ -115,10 +116,21 @@ from DimCustomer
 
 -- Retrieve a list of customers' first names after removing the first character
 
+select CustomerKey,
+FirstName,
+SUBSTRING(FirstName,1,2) s1,
+SUBSTRING(reverse(FirstName),1,2) s2,
+SUBSTRING(Trim(FirstName),2,len(FirstName)) Main --Answer to heading
+from DimCustomer
 
 
 /* ==============================================================================
    NESTING FUNCTIONS
 ===============================================================================*/
 
+SELECT AccountDescription,
+SUBSTRING(TRIM(AccountDescription),2,10) AS SUBSTR,
+LEFT(SUBSTRING(TRIM(AccountDescription),2,10),8) AS LEFT_OF_SUBSTR,
+LEN(LEFT(SUBSTRING(TRIM(AccountDescription),2,10),8)) AS LEN_OF_LEFT_OF_SUBSTR
+FROM DimAccount
 
