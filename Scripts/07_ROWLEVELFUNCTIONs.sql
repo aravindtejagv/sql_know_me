@@ -180,3 +180,85 @@ ABS(22/-7.0) ABS2,
 ABS(3.142857) ABS3,
 ABS(-3.51675) ABS4,
 ABS(ROUND(-3.51675,0)) ABS5_ROUN
+
+/* ==============================================================================
+   SQL Date & Time Functions
+-------------------------------------------------------------------------------
+   This script demonstrates various date and time functions in SQL.
+   It covers functions such as GETDATE, DATETRUNC, DATENAME, DATEPART,
+   YEAR, MONTH, DAY, EOMONTH, FORMAT, CONVERT, CAST, DATEADD, DATEDIFF,
+   and ISDATE.
+   
+   Table of Contents:
+     1. GETDATE | Date Values
+     2. Date Part Extractions (DATETRUNC, DATENAME, DATEPART, YEAR, MONTH, DAY)
+     3. DATETRUNC
+     4. EOMONTH
+     5. Date Parts
+     6. FORMAT
+     7. CONVERT
+     8. CAST
+     9. DATEADD / DATEDIFF
+    10. ISDATE
+===============================================================================
+*/
+
+/* ==============================================================================
+   GETDATE() | DATE VALUES
+===============================================================================*/
+
+/* TASK 1:
+   Display OrderID, CreationTime, a hard-coded date, and the current system date.
+*/ 
+-- I am using AdventureWorksDW2022
+
+SELECT DC.CustomerKey,DC.FirstName,DC.DateFirstPurchase,
+FIS.OrderDate,
+FIS.ShipDate,
+'2025-08-10' as Hardcoded_Curr_Date,
+GETDATE() as Curr_Date,
+CURRENT_TIMESTAMP as Curr_Date2,
+SYSDATETIME() as Curr_Date_time,
+SYSDATETIMEOFFSET() as Curr_Date_time_offset
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+
+/*Task 2:
+
+Display Day, Year, Month of OrderDate.
+*/
+
+-- I am using AdventureWorksDW2022
+
+SELECT DC.CustomerKey,DC.FirstName,
+DC.DateFirstPurchase,
+FIS.OrderDate,
+Year(FIS.OrderDate) as Year,
+Month(FIS.OrderDate) as MOnth,
+Day(FIS.OrderDate) as Day
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+
+/*Task 2:
+
+Display Datepart on OrderDate.
+*/
+
+-- I am using AdventureWorksDW2022
+
+SELECT DC.CustomerKey,DC.FirstName,
+DC.DateFirstPurchase,
+FIS.OrderDate,
+Year(FIS.OrderDate) as Year,
+Month(FIS.OrderDate) as Month,
+Day(FIS.OrderDate) as Day,
+DATEPART(YEAR,FIS.OrderDate) as Year_dp,
+DATEPART(Month,FIS.OrderDate) as Month_dp,
+DATEPART(Day,FIS.OrderDate) as Day_dp,
+DATEPART(DAYOFYEAR,FIS.OrderDate) as Dayyear_dp,
+DATEPART(QUARTER,FIS.OrderDate) as Quarter_dp,
+DATEPART(WEEK,FIS.OrderDate) as Week_dp,
+DATEPART(WEEKDAY,FIS.OrderDate) as Weekday_dp
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+order by FIS.OrderDateKey DESC
