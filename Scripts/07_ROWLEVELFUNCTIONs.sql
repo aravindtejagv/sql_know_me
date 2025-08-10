@@ -284,7 +284,6 @@ DATENAME(DAYOFYEAR,FIS.OrderDate) as Dayyear_dn,
 DATENAME(QUARTER,FIS.OrderDate) as Quarter_dn,
 DATENAME(WEEK,FIS.OrderDate) as Week_dn,
 DATENAME(WEEKDAY,FIS.OrderDate) as Weekday_dn
-
 FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 order by FIS.OrderDateKey DESC
@@ -299,6 +298,10 @@ order by FIS.OrderDateKey DESC
  select * from #test;
  drop table #test; */
 
+/*Task 4:
+
+Display DATETRUNC on OrderDate.
+*/
 -- I am using AdventureWorksDW2022
 
  SELECT DC.CustomerKey,DC.FirstName,fis.OrderDate,
@@ -326,4 +329,16 @@ FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 GROUP BY DATETRUNC(MONTH,FIS.OrderDate) 
 order by DATETRUNC(MONTH,FIS.OrderDate) DESC
+
+/*Task 5:
+
+Display EOMONTH on OrderDate.
+*/
+
+SELECT 
+FIS.OrderDate,
+EOMONTH(FIS.OrderDate)
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+
 
