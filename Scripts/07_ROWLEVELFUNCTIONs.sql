@@ -239,7 +239,7 @@ Day(FIS.OrderDate) as Day
 FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 
-/*Task 2:
+/*Task 2.a:
 
 Display Datepart on OrderDate.
 */
@@ -265,7 +265,7 @@ FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 order by FIS.OrderDateKey DESC
 
-/*Task 3:
+/*Task 2.b:
 
 Display Datename on OrderDate.
 */
@@ -298,7 +298,7 @@ order by FIS.OrderDateKey DESC
  select * from #test;
  drop table #test; */
 
-/*Task 4:
+/*Task 3:
 
 Display DATETRUNC on OrderDate.
 */
@@ -317,20 +317,7 @@ FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 order by FIS.CustomerKey DESC
 
-
--- I am using AdventureWorksDW2022
---SAMPLE EXAMPLE FOR DATETRUNC
-
-SELECT 
-DATETRUNC(MONTH,FIS.OrderDate) as Year_dT,
-COUNT(*) AS TOTALSALES,SUM(FIS.SalesAmount) AS TOTAL_SALES_AMOUNT
-
-FROM DimCustomer DC
-JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
-GROUP BY DATETRUNC(MONTH,FIS.OrderDate) 
-order by DATETRUNC(MONTH,FIS.OrderDate) DESC
-
-/*Task 5:
+/*Task 4:
 
 Display EOMONTH on OrderDate.
 */
@@ -341,4 +328,51 @@ EOMONTH(FIS.OrderDate)
 FROM DimCustomer DC
 JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
 
+/*
+Task 5: DATE PARTS 
+I am using AdventureWorksDW2022
+SAMPLE EXAMPLE FOR DATETRUNC
+*/
+SELECT 
+DATETRUNC(MONTH,FIS.OrderDate) as Year_dT,
+COUNT(*) AS TOTALSALES,SUM(FIS.SalesAmount) AS TOTAL_SALES_AMOUNT
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+GROUP BY DATETRUNC(MONTH,FIS.OrderDate) 
+order by DATETRUNC(MONTH,FIS.OrderDate) DESC
 
+/* ==============================================================================
+  FORMAT & CAST & CONVERT
+===============================================================================*/
+/*
+Task 6: FORMAT 
+
+Format Date into various string representations.
+*/
+SELECT DC.CustomerKey,
+FIS.OrderDate,
+FORMAT(FIS.OrderDate, 'dd-MM-yyyy') AS EURO_Format,
+FORMAT(FIS.OrderDate, 'MM-dd-yyyy') AS USA_Format,
+FORMAT(FIS.OrderDate, 'dd') AS dd,
+FORMAT(FIS.OrderDate, 'ddd') AS ddd,
+FORMAT(FIS.OrderDate, 'dddd') AS dddd,
+FORMAT(FIS.OrderDate, 'MM') AS MM,
+FORMAT(FIS.OrderDate, 'MMM') AS MMM,
+FORMAT(FIS.OrderDate, 'MMMM') AS MMMM
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+order by FIS.OrderDateKey DESC
+
+/* TASk :
+   Display date using a custom format:
+   Example: Day Wed Jan Q1 2025 12:34:56 PM
+*/
+
+
+
+
+
+Task 7. CONVERT
+Task 8. CAST
+Task 9. DATEADD / DATEDIFF
+Task 10. ISDATE
