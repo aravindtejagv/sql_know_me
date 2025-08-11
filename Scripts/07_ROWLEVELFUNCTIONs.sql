@@ -416,6 +416,95 @@ OrderDate,
 CAST(OrderDate AS DATE) AS DATETIME_TO_DATE
 FROM FactInternetSales
 
+/* ==============================================================================
+   DATEADD() / DATEDIFF()
+===============================================================================*/
 
-Task 9. DATEADD / DATEDIFF
-Task 10. ISDATE
+/* Task 9. DATEADD / DATEDIFF
+
+   Task:Perform date arithmetic on OrderDate.
+*/
+SELECT FirstName,
+BirthDate,
+DATEADD(DAY,9,BirthDate) AS NINEDAYSFROM_BRITHDATE,
+DATEADD(DAY,-14,BirthDate) AS TWOWEEKSBEFOREFROM_BRITHDATE,
+DATEADD(MONTH,7,BirthDate) AS SEVENMONTHSFROM_BRITHMONTH,
+DATEADD(YEAR,2,BirthDate) AS TWOYEARFROM_BRITHYEAR
+FROM DimCustomer
+
+/* TASK :
+   Calculate the age of employees.
+*/
+
+SELECT FirstName,
+BirthDate,
+DATEDIFF(YEAR,BirthDate,'2020-01-01') Age_asof2020,
+DATEDIFF(YEAR,BirthDate,GETDATE()) Age_asofToday
+FROM DimCustomer
+
+/* TASK: Find the average shipping duration in days for each month.
+*/
+
+SELECT MONTH(OrderDate) AS ORDERMONTH,
+AVG(DATEDIFF(DAY,OrderDate,ShipDate))
+FROM FactInternetSales
+GROUP BY MONTH(OrderDate) 
+ORDER BY MONTH(OrderDate)  ASC
+
+/* TASK : Time Gap Analysis: Find the number of days between each order and the previous order.
+*/
+
+SELECT DC.CustomerKey,DC.FirstName,
+FIS.OrderDate,FIS.SalesOrderNumber,
+LAG(FIS.OrderDate) OVER (ORDER BY FIS.OrderDate) AS PerviousOrderDate,
+DATEDIFF(DAY,LAG(FIS.OrderDate) OVER (ORDER BY FIS.OrderDate),OrderDate) TimeGapBetweenOrders
+FROM DimCustomer DC
+JOIN FactInternetSales FIS ON FIS.CustomerKey=DC.CustomerKey
+--WHERE DC.CustomerKey=25863
+order by FIS.OrderDateKey ASC
+
+/* ==============================================================================
+   ISDATE
+===============================================================================*/
+
+/* Task 10. ISDATE*/
+
+select 
+ISDATE('123') AS DATECHECK1,
+ISDATE('2025-08-31') AS DATECHECK2,
+ISDATE('08-31-2025') AS DATECHECK3,
+ISDATE('20-12-2025') AS DATECHECK4,
+ISDATE('31-10-2025') AS DATECHECK5,
+ISDATE('2025') AS DATECHECK6,
+ISDATE('10') AS DATECHECK7,
+ISDATE('31') AS DATECHECK8
+
+/* TASK : Validate ODate using ISDATE and convert valid dates.*/
+
+select ODate,
+ISDATE(ODate) as DateFlag,   --Perform Date Validation
+case
+when ISDATE(ODate)<>0 then CAST(ODate as Date)
+else '9999-01-01' --'Not a valid date'
+end  as ODate_Date
+--CONVERT(Date,ODate,0) as ODate_USDate
+from (
+select '2024-08-20' as ODate
+union 
+select '2023-12-01' 
+union 
+select '2021-31-08' 
+union 
+select '31-11-2022' 
+union 
+select '2024-09' 
+union 
+select '07-11-2022' 
+) temp
+--where ISDATE(ODate) <>0
+
+
+
+
+
+
