@@ -367,12 +367,55 @@ order by FIS.OrderDateKey DESC
    Display date using a custom format:
    Example: Day Wed Jan Q1 2025 12:34:56 PM
 */
+SELECT OrderDate,
+DATEADD(MINUTE, (ABS(CHECKSUM(NEWID())) % 65530),sysdatetime()) as RandomDate,
+'Day'+' '+FORMAT(DATEADD(MINUTE, (ABS(CHECKSUM(NEWID())) % 65530),sysdatetime()),'ddd MMM')+' Q'+
+DATENAME(QQ,DATEADD(MINUTE, (ABS(CHECKSUM(NEWID())) % 65530),sysdatetime()))+' '+
+FORMAT(DATEADD(MINUTE, (ABS(CHECKSUM(NEWID())) % 65530),sysdatetime()),'yyyy hh:mm:ss tt') as CustomFormat
+FROM FactInternetSales;
+
+/* TASK:
+   How many orders were placed each year, formatted by month and year (e.g., "Jan 25")?
+*/
+
+SELECT FORMAT(OrderDate,'MMM yy'),
+COUNT(SalesOrderNumber) As TotalOrders
+FROM FactInternetSales
+GROUP BY FORMAT(OrderDate,'MMM yy')
+
+/* ==============================================================================
+   CONVERT()
+===============================================================================*/
+
+/* Task 7. CONVERT
+   Demonstrate conversion using CONVERT.
+*/
+SELECT CONVERT(INT,'1234') AS STRING_TO_INT,
+CONVERT(DATE,'2025-03-23') AS STRING_TO_DATE,
+OrderDate, 
+CONVERT(DATE,OrderDate) AS DATETIME_TO_DATE,
+CONVERT(VARCHAR,OrderDate,32) AS [USA Std. Style:32],
+CONVERT(VARCHAR,OrderDate,34) AS [EURO Std. Style:34]
+
+FROM FactInternetSales
+
+/* ==============================================================================
+   CAST()
+===============================================================================*/
+
+/* Task 8. CAST
+   Convert data types using CAST.
+*/
+
+SELECT 
+CAST('1234' AS INT) AS STRING_TO_INT,
+CAST(1234 AS VARCHAR) AS INT_TO_STRIG,
+CAST('2025-06-24' AS date) AS STRING_TO_DATE,
+CAST('2025-04-14' AS datetime) AS STRING_TO_DATETIME,
+OrderDate,
+CAST(OrderDate AS DATE) AS DATETIME_TO_DATE
+FROM FactInternetSales
 
 
-
-
-
-Task 7. CONVERT
-Task 8. CAST
 Task 9. DATEADD / DATEDIFF
 Task 10. ISDATE
